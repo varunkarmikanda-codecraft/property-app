@@ -1,53 +1,75 @@
-.listing {
-  background: var(--accent-color);
-  border-radius: 30px;
-  padding-bottom: 30px;
-}
-.listing-heading {
-  color: var(--primary-color);
-  padding: 10px 20px 0 20px;
-}
-.listing-photo {
-  height: 250px;
-  width: 100%;
-  object-fit: cover;
-  border-radius: 30px 30px 0 0;
-}
-.listing-location {
-  padding: 10px 20px 20px 20px;
-}
-.listing-location::before {
-  display: inline-block;
-  vertical-align: middle;
-  margin-right: 8px;
-  position: relative;
-  right: -5px;
-  content: url('/public/location-pin.svg') / '';
-}
-section.listing a {
-  padding-left: 20px;
-  text-decoration: none;
-  color: var(--primary-color);
-}
-section.listing a::after {
-  content: '\203A';
-  margin-left: 5px;
-}
-
+/* 1. The Container - Base cleanup */
 .container {
-  display: inline-block;
+  display: block;
   width: 100%;
   border: none;
   background: none;
   padding: 0;
   cursor: pointer;
-  transition:
-    transform 0.15s ease,
-    box-shadow 0.15s ease;
+  text-align: left;
+  transition: transform 0.15s ease;
   border-radius: 30px;
 }
 
 .container:active {
   transform: scale(0.97);
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.listing {
+  background: var(--accent-color, #f0f0f0);
+  border-radius: 30px;
+  padding-bottom: 20px;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+.listing-photo {
+  height: 250px;
+  width: 100%;
+  object-fit: cover;
+  object-position: center;
+  border-radius: 30px 30px 0 0;
+}
+
+.listing-heading {
+  color: var(--primary-color);
+  padding: 15px 20px 0 20px;
+  margin: 0;
+  font-size: 1.4rem;
+}
+
+.listing > div {
+  padding: 0 20px;
+}
+
+.listing-location {
+  padding: 5px 0 15px 0;
+  margin: 0;
+  color: #444;
+}
+
+.listing-location::before {
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 8px;
+  content: url('/public/location-pin.svg') / '';
+}
+
+.listing div p:nth-child(2) {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  
+  /* Styling it like a badge */
+  background: white;
+  color: #1d4ed8;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-weight: bold;
+  font-size: 0.75rem;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  margin: 0;
+  z-index: 10;
+  animation: popIn 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }

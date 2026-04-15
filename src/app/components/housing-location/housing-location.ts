@@ -12,8 +12,17 @@ export class HousingLocation {
   housingLocation = input.required<HousingLocationInfo>();
   onLocationClick = output<HousingLocationInfo>();
 
-  handleClick() {
+  showWifi = false
+
+  handleClick(event: MouseEvent) {
+    if(this.housingLocation().wifi) {
+      this.showWifi = !this.showWifi
+    }
+
+    console.log(event.target)
+
     console.log(`${this.housingLocation().name} is clicked`)
+    this.onLocationClick.emit(this.housingLocation())
   }
 
   // ngOnInit(){

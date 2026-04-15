@@ -1,10 +1,11 @@
 import { Component, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { Home } from './components/home/home';
+import { Counter } from "./components/counter/counter";
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, Home],
+  imports: [RouterOutlet, Home, Counter],
   templateUrl: './app.html',
   // template: `<h1>Hello {{ title() }}</h1>`,
   styleUrl: './app.css',

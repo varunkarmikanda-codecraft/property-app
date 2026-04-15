@@ -1,0 +1,7 @@
+<section>
+  <p>Count: {{ getCount() }} </p>
+  <input #count type="number" placeholder="Enter initial count">
+  <button (click)="setCount((count.value))">Set count</button>
+  <button (click)="incrementCounter()">Increasee</button>
+  <button (click)="decreaseCounter()">Decreasee</button>
+</section>

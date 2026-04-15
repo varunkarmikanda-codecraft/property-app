@@ -5,7 +5,12 @@
   </form>
 </section>
 <section class="results">
-  @for (housingLocation of housingLocationList; track $index) {
-    <app-housing-location [housingLocation]="housingLocation" />
+  @for (housingLocation of housingLocationList; track housingLocation.id) {
+    <app-housing-location 
+      [housingLocation]="housingLocation" 
+      (onLocationClick)="handleLocationClick($event)" />
+  } @empty {
+    <p>No locations found.</p>
   }
 </section>
+

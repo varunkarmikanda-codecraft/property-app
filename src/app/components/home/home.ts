@@ -9,6 +9,9 @@ import { HousingLocationInfo } from '../../models/housing-location-info';
   styleUrl: './home.css',
 })
 export class Home {
+
+  count = 0;
+
   readonly baseUrl = 'https://angular.dev/assets/images/tutorials/common';
 
   housingLocationList: HousingLocationInfo[] = [
@@ -114,5 +117,16 @@ export class Home {
     },
   ];
 
-  
+  handleLocationClick(housingLocationInfo: HousingLocationInfo) {
+
+    console.log(`Home ${housingLocationInfo.name} is clicked`)
+    const index = this.housingLocationList.findIndex(location => location.id === housingLocationInfo.id);
+
+    if (index !== -1) {
+      const [item] = this.housingLocationList.splice(index, 1);
+      
+      this.housingLocationList = [item, ...this.housingLocationList];
+    }
+  }
+
 }
