@@ -4,17 +4,8 @@ import { BASE_URL, LocationService } from '../../services/location-service';
 import { MockLocationService } from '../../services/mock-location.service';
 
 @Component({
-  selector: "app-housing-child",
-  template: `<p>{{ baseURL }}</p>`
-})
-
-export class HousingChild {
-  baseURL = inject(BASE_URL)
-}
-
-@Component({
   selector: 'app-housing-location',
-  imports: [HousingChild],
+  imports: [],
   templateUrl: './housing-location.html',
   styleUrl: './housing-location.css',
   providers: [{ provide: BASE_URL, useValue: "hehe hehe heee"}]
@@ -22,8 +13,6 @@ export class HousingChild {
 export class HousingLocation {
   housingLocation = input.required<HousingLocationInfo>();
   onLocationClick = output<HousingLocationInfo>();
-  locationService = inject(LocationService);
-  baseURL = inject(BASE_URL)
 
   showWifi = false;
 
@@ -36,8 +25,6 @@ export class HousingLocation {
 
     console.log(`${this.housingLocation().name} is clicked`);
     this.onLocationClick.emit(this.housingLocation());
-    console.log(this.baseURL)
-    console.log(this.locationService)
   }
 
   // ngOnInit(){

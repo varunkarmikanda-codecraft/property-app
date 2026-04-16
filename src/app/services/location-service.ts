@@ -1,24 +1,23 @@
-import { Injectable, InjectionToken } from '@angular/core';
+import { inject, Injectable, InjectionToken } from '@angular/core';
 import { HousingLocationInfo } from '../models/housing-location-info';
 
-export const BASE_URL = new InjectionToken<string>("base url", {
-  providedIn: "root",
-  factory: () => "https://angular.dev/assets/images/tutorials/common",
-})
+export const BASE_URL = new InjectionToken<string>('base url', {
+  providedIn: 'root',
+  factory: () => 'https://angular.dev/assets/images/tutorials/common',
+});
 
 @Injectable({
   providedIn: 'root',
 })
 export class LocationService {
-
   static numberOfInstances = 0;
 
   constructor() {
     LocationService.numberOfInstances += 1;
-    console.log("Number of instances of ", LocationService.numberOfInstances)
+    console.log('Number of instances of ', LocationService.numberOfInstances);
   }
 
-  readonly baseUrl = 'https://angular.dev/assets/images/tutorials/common';
+  private readonly baseUrl = inject(BASE_URL);
 
   private readonly housingLocationList: HousingLocationInfo[] = [
     {
@@ -123,8 +122,11 @@ export class LocationService {
     },
   ];
 
-
   getAllLocation() {
     return this.housingLocationList;
+  }
+
+  getLocationForId(id: number): HousingLocationInfo | undefined {
+    return this.housingLocationList.find((location) => location.id === id);
   }
 }

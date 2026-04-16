@@ -1,0 +1,46 @@
+import { Component, inject } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { LocationService } from '../../services/location-service';
+import { HousingLocationInfo } from '../../models/housing-location-info';
+
+@Component({
+  selector: 'app-location-details',
+  imports: [],
+  templateUrl: './location-details.html',
+  styleUrl: './location-details.css',
+})
+export class LocationDetails {
+  // We need to bea bale to read the id of the location from the window location for the angular can provide us the activated route 
+  // and get the object from it and get the dynamic param from the url
+
+  route: ActivatedRoute = inject(ActivatedRoute);
+  housingLocationId = -1;
+
+  locationService: LocationService = inject(LocationService);
+
+  location: HousingLocationInfo | undefined;
+  
+  constructor() {
+    this.housingLocationId = Number(this.route.snapshot.params['id']);
+    
+    console.log("ID of the location: ",this.housingLocationId)
+
+    this.location = this.locationService.getLocationForId(this.housingLocationId)
+
+    LocationDetails.count++;
+    console.log("Number of instances: ", LocationDetails.count)
+    
+  }
+
+  ngAfterViewInit() {
+    console.log("Component is now rendered")
+  }
+
+  ngOnDestroy() {
+    console.log("On Destroyed")
+    LocationDetails.count--;
+  }
+
+  static count = 0;
+
+}

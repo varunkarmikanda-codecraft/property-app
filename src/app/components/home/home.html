@@ -3,6 +3,10 @@
     <input type="text" placeholder="Filter by city" />
     <button class="primary" type="button">Search</button>
   </form>
+  <label>
+    Edit mode:
+    <input type="checkbox" (change)="handleCheckbox($event)" checked/>
+  </label>
 </section>
 <section class="results">
   @for (housingLocation of locationService.getAllLocation(); track housingLocation.id) {
