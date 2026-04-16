@@ -45,11 +45,9 @@ export class LocationDetails {
   }
 
   ngAfterViewInit() {
-    console.log("Component is now rendered")
   }
 
   ngOnDestroy() {
-    console.log("On Destroyed")
     LocationDetails.count--;
   }
 
@@ -58,10 +56,8 @@ export class LocationDetails {
       const prevId = housingLocationInfo.id - 1;
       if(prevId >= 0) {
         this.router.navigate(['details', prevId])
-        console.log("details/",prevId)
       }
     }
-    console.log(housingLocationInfo)
   }
 
   handleNext(housingLocationInfo: HousingLocationInfo | undefined) {
@@ -69,10 +65,8 @@ export class LocationDetails {
       const nextId = housingLocationInfo.id + 1;
       if(nextId < this.locationService.getAllLocation().length) {
         this.router.navigate(['details', nextId])
-        console.log("details/", nextId)
       }
     }
-    console.log(housingLocationInfo)
   }
 
   static count = 0;
