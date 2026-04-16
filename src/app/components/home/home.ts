@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { HousingLocation } from '../housing-location/housing-location';
 import { HousingLocationInfo } from '../../models/housing-location-info';
 import { LocationService } from '../../services/location-service';
@@ -16,32 +16,21 @@ export class Home {
   router = inject(Router)
 
   mode = signal<"normal" | "edit">('normal')
+
+  modeStatus = computed(() => {
+    return this.mode() === "normal" ? "NORMAL" : "EDIT"
+  })
   
   housingLocationList: any;
 
-  constructor() {
-    console.log("Constro init")
-  }
-
   handleLocationClick(housingLocationInfo: HousingLocationInfo) {
-    console.log(`Home ${housingLocationInfo.name} is clicked`);
-    // const index = this.housingLocationList.findIndex((location: { id: number; }) => location.id === housingLocationInfo.id);
 
-    // if (index !== -1) {
-    //   const [item] = this.housingLocationList.splice(index, 1);
-
-    //   this.housingLocationList = [item[0], ...this.housingLocationList];
-    // }
-    // // this.locationService = inject(LocationService)
-
-    // If we locked in the  normal mode navigate the user card ti ckicked property details screen
-
-    this.router.navigate(['details', housingLocationInfo.id])
-    console.log("Routing to: ", housingLocationInfo.id)
+    if(this.mode() === "normal") {
+      this.router.navigate(['details', housingLocationInfo.id])
+    }
   }
 
   handleCheckbox(event: Event) {
-    console.log(`MODE: ${this.mode()}\nCheckbox: ${(event.target as HTMLInputElement).checked}`)
 
     // GOOD: If you want to compute new value based on its previous value
     this.mode.update(prev => prev === "normal" ? 'edit' : "normal")
@@ -52,11 +41,4 @@ export class Home {
 
   }
 
-  ngOnInit() {
-    console.log("home instanciated")
-  }
-
-  ngOnDestroy() {
-    console.log("destro")
-  }
 }

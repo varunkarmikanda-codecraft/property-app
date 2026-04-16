@@ -13,17 +13,15 @@ import { MockLocationService } from '../../services/mock-location.service';
 export class HousingLocation {
   housingLocation = input.required<HousingLocationInfo>();
   onLocationClick = output<HousingLocationInfo>();
+  isEditMode = input<boolean>(false);
 
-  showWifi = false;
+  isSelected = false;
 
   handleClick(event: MouseEvent) {
-    if (this.housingLocation().wifi) {
-      this.showWifi = !this.showWifi;
+    if(this.isEditMode()) {
+      console.log("selected");
+      this.isSelected = !this.isSelected;
     }
-
-    console.log(event.target);
-
-    console.log(`${this.housingLocation().name} is clicked`);
     this.onLocationClick.emit(this.housingLocation());
   }
 

@@ -1,18 +1,24 @@
 <section>
-  <form>
-    <input type="text" placeholder="Filter by city" />
-    <button class="primary" type="button">Search</button>
-  </form>
-  <label>
-    Edit mode:
-    <input type="checkbox" (change)="handleCheckbox($event)" checked/>
-  </label>
+  <div class="toolbar">
+    <form>
+      <input type="text" placeholder="Filter by city" />
+      <button class="primary" type="button">Search</button>
+    </form>
+    <label class="edit-toggle">
+      <input type="checkbox" (change)="handleCheckbox($event)" />
+      <span>MODE</span>
+      <span class="status-badge" [class.editing]="mode() === 'edit'">
+        {{ modeStatus() }}
+      </span>
+    </label>
+  </div>  
 </section>
 <section class="results">
   @for (housingLocation of locationService.getAllLocation(); track housingLocation.id) {
     <app-housing-location 
       [housingLocation]="housingLocation" 
-      (onLocationClick)="handleLocationClick($event)" />
+      (onLocationClick)="handleLocationClick($event)" 
+      [isEditMode]="mode() === 'edit'" />
   } @empty {
     <p>No locations found.</p>
   }
