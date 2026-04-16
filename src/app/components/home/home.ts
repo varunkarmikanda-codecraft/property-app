@@ -9,7 +9,6 @@ import { MockLocationService } from '../../services/mock-location.service';
   imports: [HousingLocation],
   templateUrl: './home.html',
   styleUrl: './home.css',
-  providers: [{ provide: LocationService, useClass: LocationService }],
 })
 export class Home {
   locationService: LocationService = inject(LocationService);
