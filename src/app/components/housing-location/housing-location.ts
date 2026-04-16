@@ -4,11 +4,20 @@ import { BASE_URL, LocationService } from '../../services/location-service';
 import { MockLocationService } from '../../services/mock-location.service';
 
 @Component({
+  selector: "app-housing-child",
+  template: `<p>{{ baseURL }}</p>`
+})
+
+export class HousingChild {
+  baseURL = inject(BASE_URL)
+}
+
+@Component({
   selector: 'app-housing-location',
-  imports: [],
+  imports: [HousingChild],
   templateUrl: './housing-location.html',
   styleUrl: './housing-location.css',
-  providers: [{ provide: BASE_URL, useValue: "hehe hehe he"}]
+  providers: [{ provide: BASE_URL, useValue: "hehe hehe heee"}]
 })
 export class HousingLocation {
   housingLocation = input.required<HousingLocationInfo>();
