@@ -6,6 +6,16 @@ export const BASE_URL = new InjectionToken<string>('base url', {
   factory: () => 'https://angular.dev/assets/images/tutorials/common',
 });
 
+interface LocationAppConfig {
+  env: "DEV" | "PROD",
+  os: "win" | "mac"    
+}
+
+export const LOCATION_APP_CONFIG = new InjectionToken<LocationAppConfig>("App configuration", {
+  factory: () => ({ env: "DEV", os: "win"})
+  }
+)
+
 @Injectable({
   providedIn: 'root',
 })

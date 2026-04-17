@@ -17,7 +17,7 @@ export class HousingLocation {
 
   isSelected = false;
 
-  handleClick(event: MouseEvent) {
+  handleClick() {
     if(this.isEditMode()) {
       console.log("selected");
       this.isSelected = !this.isSelected;
@@ -26,6 +26,6 @@ export class HousingLocation {
   }
 
   // ngOnInit(){
-  //   console.log(this.housingLocation())
+  //   console.log(this.housingLocation()) 
   // }
 }

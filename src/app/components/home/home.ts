@@ -19,7 +19,7 @@ export class Home {
 
   modeStatus = computed(() => {
     return this.mode() === "normal" ? "NORMAL" : "EDIT"
-  })
+  })  
   
   housingLocationList: any;
 
@@ -35,10 +35,7 @@ export class Home {
     // GOOD: If you want to compute new value based on its previous value
     this.mode.update(prev => prev === "normal" ? 'edit' : "normal")
     // BAD
-    // this.mode.set(this.mode() === "normal" ? 'edit' : "normal")
-
-
-
+    // this.mode.set(this.mode() === "normal" ? 'edit' : "normal") 
   }
 
 }

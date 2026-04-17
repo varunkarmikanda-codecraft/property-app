@@ -1,4 +1,4 @@
-<button class="container" (click)="handleClick($event)" [class.selected]="isEditMode() && isSelected">
+<button class="container" (click)="handleClick()" [class.selected]="isEditMode() && isSelected">
   <section class="listing">
     @if(isEditMode() && isSelected) {
       <div class="selection-check">✓</div>
@@ -6,17 +6,17 @@
     <img
       class="listing-photo"
       [src]="housingLocation().photo"
-      alt="Exterior of {{ housingLocation().name }}"
-      crossorigin
     />
     <h2 class="listing-heading">{{ housingLocation().name }}</h2>
     <div class="listing-info">
       <p class="listing-location">{{ housingLocation().city }}, {{ housingLocation().state }}</p>
-      <img
+      @if(housingLocation().wifi) {
+        <img
         src="public/wifi.svg"
         class="wifi-icon"
         alt="WiFi available"
-      />
+        /> 
+      }
     </div>
   </section>
 </button>

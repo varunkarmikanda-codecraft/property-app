@@ -68,7 +68,7 @@ export class LocationDetails {
       }
     }
   }
-
+  
   static count = 0;
 
 }
