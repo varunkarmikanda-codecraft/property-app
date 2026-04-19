@@ -1,6 +1,6 @@
-<button class="container" (click)="handleClick()" [class.selected]="isEditMode() && isSelected">
+<button class="container" (click)="handleClick()" [class.selected]="isEditMode() && isSelected()">
   <section class="listing">
-    @if(isEditMode() && isSelected) {
+    @if(isEditMode() && isSelected()) {
       <div class="selection-check">✓</div>
     }
     <img
