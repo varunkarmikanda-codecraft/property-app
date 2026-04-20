@@ -84,9 +84,18 @@ button {
   box-shadow: 0 4px 15px rgba(96, 93, 236, 0.3);
 }
 
-button:hover {
+button:hover:not(:disabled) {
   background: var(--secondary-color);
   transform: translateY(-2px);
+}
+
+button:disabled {
+  background: #ccc;          /* Light gray background */
+  color: #888;               /* Muted text color */
+  cursor: not-allowed;       /* Show the "No" circle cursor */
+  transform: none;           /* Disable the hover lift effect */
+  box-shadow: none;          /* Remove the glowing shadow */
+  pointer-events: none;      /* Prevent any clicks */
 }
 
 /* Mobile Responsive */

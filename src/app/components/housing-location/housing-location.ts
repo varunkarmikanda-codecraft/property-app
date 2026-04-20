@@ -14,13 +14,15 @@ export class HousingLocation {
   housingLocation = input.required<HousingLocationInfo>();
   onLocationClick = output<HousingLocationInfo>();
   isEditMode = input<boolean>(false);
-
-  isSelected = false;
+  isSelected = input<boolean>(false);
+  selectedLocation = output<{ id: number, selected: boolean}>();
 
   handleClick() {
     if(this.isEditMode()) {
-      console.log("selected");
-      this.isSelected = !this.isSelected;
+      this.selectedLocation.emit({
+        id: this.housingLocation().id,
+        selected: !this.isSelected()
+      });
     }
     this.onLocationClick.emit(this.housingLocation());
   }

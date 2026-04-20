@@ -76,6 +76,43 @@ button.primary:hover {
   font-weight: bold;
 }
 
+.status-badge.editing {
+  background: #0f9d58;
+}
+
+button.danger,
+button.secondary {
+  padding: 10px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  border: 1px solid transparent;
+  transition: filter 0.2s ease, opacity 0.2s ease;
+}
+
+button.danger {
+  background: #c62828;
+  color: #fff;
+  border-color: #c62828;
+}
+
+button.secondary {
+  background: #fff;
+  color: #333;
+  border-color: #bbb;
+}
+
+button.danger:hover,
+button.secondary:hover {
+  filter: brightness(1.06);
+}
+
+button.danger:disabled,
+button.secondary:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
 
 /* Results Grid */
 .results {

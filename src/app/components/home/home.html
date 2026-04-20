@@ -5,20 +5,38 @@
       <button class="primary" type="button">Search</button>
     </form>
     <label class="edit-toggle">
-      <input type="checkbox" (change)="handleCheckbox($event)" />
+      <input type="checkbox" (change)="handleCheckbox()" />
       <span>MODE</span>
       <span class="status-badge" [class.editing]="mode() === 'edit'">
         {{ modeStatus() }}
       </span>
     </label>
+    <button
+      class="danger"
+      type="button"
+      (click)="deleteSelected()"
+      [disabled]="mode() !== 'edit' || selectedCount() === 0"
+    >
+      Delete Selected ({{ selectedCount() }})
+    </button>
+    <button
+      class="secondary"
+      type="button"
+      (click)="restoreOriginal()"
+      [disabled]="mode() !== 'edit' || deletedCount() === 0"
+    >
+      Restore All
+    </button>
   </div>  
 </section>
 <section class="results">
-  @for (housingLocation of locationService.getAllLocation(); track housingLocation.id) {
+  @for (housingLocation of visibleItems(); track housingLocation.id) {
     <app-housing-location 
       [housingLocation]="housingLocation" 
+      [isSelected]="housingLocation.selected"
       (onLocationClick)="handleLocationClick($event)" 
-      [isEditMode]="mode() === 'edit'" />
+      [isEditMode]="mode() === 'edit'"
+      (selectedLocation)="handleSelectionChange($event)" />
   } @empty {
     <p>No locations found.</p>
   }

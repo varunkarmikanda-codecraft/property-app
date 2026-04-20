@@ -1,0 +1,2 @@
+- [ ] After delete when i got inside the component and come back the deleted also shows up
+- [ ] when inside a component the next prev also displays the deleted items 
