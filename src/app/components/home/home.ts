@@ -26,7 +26,7 @@ export class Home {
     return this.mode() === "normal" ? "NORMAL" : "EDIT"
   });
   
-  housingLocationList: HousingLocationData[] = [];
+  // housingLocationList: HousingLocationData[] = [];
 
   originalLocationServiceInfo = signal<HousingLocationInfo[]>(this.locationService.getAllLocation());
 
