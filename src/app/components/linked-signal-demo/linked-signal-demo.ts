@@ -1,4 +1,4 @@
-import {Component, ChangeDetectionStrategy, signal, computed, linkedSignal} from '@angular/core';
+import {Component, ChangeDetectionStrategy, signal, computed, linkedSignal, effect} from '@angular/core';
 
 @Component({
   selector: 'app-linked-signal-demo',
@@ -14,29 +14,21 @@ import {Component, ChangeDetectionStrategy, signal, computed, linkedSignal} from
         <div class="notifications">
           <strong>Notifications:</strong>
           <!-- TODO: Replace 'Loading...' with @if block using notificationsEnabled() -->
-           @if (notificationsEnabled()) {
-            Enabled
-           } @else {
-            Disabled
-           }
-           <div class="status-info">
-            <div class="notifications">
+           
               <strong>Notifications:</strong>
-              @if (notificationsEnabled()) {
+              @if (notificationPreference()) {
                 Enabled
               } @else {
                 Disabled
               }
               <button (click)="toggleNotifications()" class="override-btn">
-                @if (notificationsEnabled()) {
+                @if (notificationPreference()) {
                   Disable
                 } @else {
                   Enable
                 }
               </button>
-            </div>
-            <!-- existing message and working-hours divs remain -->
-          </div>
+            
         </div>
         <div class="message">
           <strong>Message:</strong>
@@ -67,11 +59,30 @@ import {Component, ChangeDetectionStrategy, signal, computed, linkedSignal} from
 })
 export class LinkedSignalDemo {
   userStatus = signal<'online' | 'away' | 'offline'>('offline');
+  notificationPreference = signal<boolean>(this.userStatus() === "online")
+
+  // notificationEffect = effect(() => {
+  //   if(this.userStatus() === "online") {
+  //     this.notificationPreference.set(true);
+  //   } else {
+  //     this.notificationPreference.set(false)
+  //   }
+  // })
+
+  constructor() {
+      effect(() => {
+      if(this.userStatus() === "online") {
+        this.notificationPreference.set(true);
+      } else {
+        this.notificationPreference.set(false)
+      }
+    })
+  }
 
   // TODO: Create notificationsEnabled computed signal that returns true when status is 'online'
-  notificationsEnabled = linkedSignal(() => {
-    return this.userStatus() === 'online';
-  })
+  // notificationsEnabled = computed(() => {
+  //   return this.userStatus() === 'online';
+  // })
 
   // TODO: Create statusMessage computed signal that returns appropriate message for each status
   statusMessage = computed(() => {
@@ -98,32 +109,40 @@ export class LinkedSignalDemo {
 
   goOnline() {
     this.userStatus.set('online');
+    // this.notificationPreference.set(true)
   }
-
+  
   goAway() {
     this.userStatus.set('away');
+    // this.notificationPreference.set(false)
   }
-
+  
   goOffline() {
     this.userStatus.set('offline');
+    // this.notificationPreference.set(false)
   }
-
+  
   toggleStatus() {
     const current = this.userStatus();
     switch (current) {
       case 'offline':
         this.userStatus.set('online');
+        // this.notificationPreference.set(true)
         break;
       case 'online':
         this.userStatus.set('away');
+        // this.notificationPreference.set(false)
         break;
       case 'away':
         this.userStatus.set('offline');
+        // this.notificationPreference.set(false)
         break;
     }
   }
 
   toggleNotifications() {
-    this.notificationsEnabled.update(prev => !prev);
+    // this.notificationsEnabled.update(prev => !prev);
+
+    this.notificationPreference.update(prev => !prev);
   }
 }
