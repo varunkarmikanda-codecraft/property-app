@@ -1,4 +1,4 @@
-import {Component, ChangeDetectionStrategy, signal, computed} from '@angular/core';
+import {Component, ChangeDetectionStrategy, signal, computed, linkedSignal} from '@angular/core';
 
 @Component({
   selector: 'app-linked-signal-demo',
@@ -19,6 +19,24 @@ import {Component, ChangeDetectionStrategy, signal, computed} from '@angular/cor
            } @else {
             Disabled
            }
+           <div class="status-info">
+            <div class="notifications">
+              <strong>Notifications:</strong>
+              @if (notificationsEnabled()) {
+                Enabled
+              } @else {
+                Disabled
+              }
+              <button (click)="toggleNotifications()" class="override-btn">
+                @if (notificationsEnabled()) {
+                  Disable
+                } @else {
+                  Enable
+                }
+              </button>
+            </div>
+            <!-- existing message and working-hours divs remain -->
+          </div>
         </div>
         <div class="message">
           <strong>Message:</strong>
@@ -51,7 +69,7 @@ export class LinkedSignalDemo {
   userStatus = signal<'online' | 'away' | 'offline'>('offline');
 
   // TODO: Create notificationsEnabled computed signal that returns true when status is 'online'
-  notificationsEnabled = computed(() => {
+  notificationsEnabled = linkedSignal(() => {
     return this.userStatus() === 'online';
   })
 
@@ -103,5 +121,9 @@ export class LinkedSignalDemo {
         this.userStatus.set('offline');
         break;
     }
+  }
+
+  toggleNotifications() {
+    this.notificationsEnabled.update(prev => !prev);
   }
 }
