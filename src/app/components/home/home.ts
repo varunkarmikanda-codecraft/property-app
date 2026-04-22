@@ -1,7 +1,7 @@
 import { Component, computed, inject, linkedSignal, signal } from '@angular/core';
 import { HousingLocation } from '../housing-location/housing-location';
 import { HousingLocationInfo } from '../../models/housing-location-info';
-import { LocationService } from '../../services/location-service';
+import { BASE_URL, LocationService } from '../../services/location-service';
 import { MockLocationService } from '../../services/mock-location.service';
 import { Router } from '@angular/router';
 
@@ -18,6 +18,7 @@ type HousingLocationData = HousingLocationInfo & {
 export class Home {
   locationService: LocationService = inject(LocationService);
   router = inject(Router)
+  baseUrl = inject(BASE_URL)
 
   mode = signal<"normal" | "edit">('normal')
 
@@ -25,13 +26,35 @@ export class Home {
     return this.mode() === "normal" ? "NORMAL" : "EDIT"
   });
 
-  locationServiceData = linkedSignal<HousingLocationData[]>(() => {
-    const locationSignal = this.locationService.getAllLocation();
-    const viewAllLocations = locationSignal().map(location => ({
-        ...location, selected: false
-      }))
-      return viewAllLocations;
-    });
+  // locationServiceData = linkedSignal<HousingLocationData[]>(() => {
+  //   const locationSignal = this.locationService.getAllLocation();
+  //   const viewAllLocations = locationSignal().map(location => ({
+  //       ...location, selected: false
+  //     }))
+  //     return viewAllLocations;
+  //   });
+
+    locationServiceData = linkedSignal<HousingLocationInfo[], HousingLocationData[]>(
+    {
+      source: this.locationService.getAllLocation(),
+      computation: (newDependencyHouseLocationInfoArray, previousValue) => {
+        const prevLocationViewModels = (previousValue?.value as HousingLocationData[]) ?? []
+
+        const viewLocationsModels = newDependencyHouseLocationInfoArray.map(location => {
+
+          // Check if the location is already in the selected state
+          // We can figure that out using the previous location models and use that models selected values, and set it to the new model we are creating
+          const matchedModel = prevLocationViewModels.find(prevLocation => prevLocation.id === location.id)
+
+
+          return { ...location, selected: matchedModel?.selected ?? false }
+
+        })
+
+        return viewLocationsModels
+      }
+    }
+  )
 
   visibleItems = computed(() => this.locationServiceData().filter(x => !this.locationService.isDeleted(x.id)));
   selectedCount = computed(() => this.locationServiceData().filter(x => x.selected && !this.locationService.isDeleted(x.id)).length);
@@ -100,11 +123,11 @@ export class Home {
 
     const data: HousingLocationInfo = {
       id: 0,
-      name: 'Acme Fresh Start Housing',
-      city: 'Chicago',
-      state: 'IL',
-      photo: `https://angular.dev/assets/images/tutorials/common/bernard-hermant-CLKGGwIBTaY-unsplash.jpg`,
-      availableUnits: 4,
+      name: 'Codecraft',
+      city: 'Mangalore',
+      state: 'Karnataka',
+      photo: `${this.baseUrl}/bernard-hermant-CLKGGwIBTaY-unsplash.jpg`,
+      availableUnits: 1,
       wifi: true,
       laundry: true,
     }

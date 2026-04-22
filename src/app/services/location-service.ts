@@ -175,9 +175,8 @@ export class LocationService {
 
     // this.location.set([...this.location(), newLocation])
 
-    // this.location.update(prev => [...prev, newLocation])
-    this.location.update(prev => [...prev, { ...location, id: this.getTotalLocations()}])
-    
+    this.location.update(prev => [...prev, newLocation])
+  
   }
 
   getTotalLocations() {
