@@ -81,6 +81,7 @@ export class Home {
           newVm.selected = !newVm.selected;
           return newVm;
         }
+        return vm
       })
     }
   }
@@ -91,6 +92,24 @@ export class Home {
     if(this.mode() === 'normal'){
       this.locationServiceData.update(list => list.map(x => ({ ...x, selected: false })));
     }
+  }
+
+  addHousingLocation() {
+
+    console.log("Starting to add housing location...")
+
+    const data: HousingLocationInfo = {
+      id: 0,
+      name: 'Acme Fresh Start Housing',
+      city: 'Chicago',
+      state: 'IL',
+      photo: `https://angular.dev/assets/images/tutorials/common/bernard-hermant-CLKGGwIBTaY-unsplash.jpg`,
+      availableUnits: 4,
+      wifi: true,
+      laundry: true,
+    }
+
+    this.locationService.addLocation(data)
   }
 
 }

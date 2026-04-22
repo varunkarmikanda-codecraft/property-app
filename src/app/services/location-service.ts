@@ -159,4 +159,29 @@ export class LocationService {
     return this.deletedIds()
   }
 
+  addLocation(location: HousingLocationInfo) {
+  //   const currentLocations = this.location();
+  //   location.id = currentLocations.length;
+  //   console.log(this.location())
+    // currentLocations.push(location);
+  //   this.location.set([...this.location(), ...currentLocations])
+    
+  //   this.location.set(currentLocations);
+  //   console.log(this.location())
+
+    console.log(location)
+    const newLocation = { ...location, id: this.getTotalLocations() };
+    console.log(newLocation)
+
+    // this.location.set([...this.location(), newLocation])
+
+    // this.location.update(prev => [...prev, newLocation])
+    this.location.update(prev => [...prev, { ...location, id: this.getTotalLocations()}])
+    
+  }
+
+  getTotalLocations() {
+    return this.location().length
+  }
+
 }
