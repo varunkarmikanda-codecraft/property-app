@@ -1,4 +1,5 @@
 import {Component, ChangeDetectionStrategy, signal, computed, linkedSignal, effect} from '@angular/core';
+import { ShoppingSelection } from "../shopping-selection/shopping-selection";
 
 @Component({
   selector: 'app-linked-signal-demo',
@@ -52,9 +53,12 @@ import {Component, ChangeDetectionStrategy, signal, computed, linkedSignal, effe
         <button (click)="goOffline()" [disabled]="userStatus() === 'offline'">Go Offline</button>
         <button (click)="toggleStatus()" class="toggle-btn">Cycle Status</button>
       </div>
+
+      <app-shopping-selection></app-shopping-selection>
     </div>
   `,
   styleUrl: './linked-signal-demo.css',
+  imports: [ShoppingSelection],
   // changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LinkedSignalDemo {
