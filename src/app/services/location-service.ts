@@ -1,4 +1,4 @@
-import { inject, Injectable, InjectionToken } from '@angular/core';
+import { inject, Injectable, InjectionToken, signal } from '@angular/core';
 import { HousingLocationInfo } from '../models/housing-location-info';
 
 export const BASE_URL = new InjectionToken<string>('base url', {
@@ -21,6 +21,7 @@ export const LOCATION_APP_CONFIG = new InjectionToken<LocationAppConfig>("App co
 })
 export class LocationService {
   static numberOfInstances = 0;
+  private deletedIds = signal<number[]>([]);
 
   constructor() {
     LocationService.numberOfInstances += 1;
@@ -139,4 +140,21 @@ export class LocationService {
   getLocationForId(id: number): HousingLocationInfo | undefined {
     return this.housingLocationList.find((location) => location.id === id);
   }
+
+  deleteItems(ids: number[]) {
+    this.deletedIds.update(currentIds => [...currentIds, ...ids])
+  }
+
+  restoreItems() {
+    this.deletedIds.set([]);
+  }
+
+  isDeleted(id: number) {
+    return this.deletedIds().includes(id)
+  }
+
+  getDeletedIds() {
+    return this.deletedIds()
+  }
+
 }

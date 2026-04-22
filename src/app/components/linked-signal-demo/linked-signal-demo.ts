@@ -16,13 +16,13 @@ import {Component, ChangeDetectionStrategy, signal, computed, linkedSignal, effe
           <!-- TODO: Replace 'Loading...' with @if block using notificationsEnabled() -->
            
               <strong>Notifications:</strong>
-              @if (notificationPreference()) {
+              @if (notificationsEnabled()) {
                 Enabled
               } @else {
                 Disabled
               }
               <button (click)="toggleNotifications()" class="override-btn">
-                @if (notificationPreference()) {
+                @if (notificationsEnabled()) {
                   Disable
                 } @else {
                   Enable
@@ -61,28 +61,10 @@ export class LinkedSignalDemo {
   userStatus = signal<'online' | 'away' | 'offline'>('offline');
   notificationPreference = signal<boolean>(this.userStatus() === "online")
 
-  // notificationEffect = effect(() => {
-  //   if(this.userStatus() === "online") {
-  //     this.notificationPreference.set(true);
-  //   } else {
-  //     this.notificationPreference.set(false)
-  //   }
-  // })
-
-  constructor() {
-      effect(() => {
-      if(this.userStatus() === "online") {
-        this.notificationPreference.set(true);
-      } else {
-        this.notificationPreference.set(false)
-      }
-    })
-  }
-
   // TODO: Create notificationsEnabled computed signal that returns true when status is 'online'
-  // notificationsEnabled = computed(() => {
-  //   return this.userStatus() === 'online';
-  // })
+  notificationsEnabled = linkedSignal(() => {
+    return this.userStatus() === 'online';
+  })
 
   // TODO: Create statusMessage computed signal that returns appropriate message for each status
   statusMessage = computed(() => {
@@ -109,17 +91,14 @@ export class LinkedSignalDemo {
 
   goOnline() {
     this.userStatus.set('online');
-    // this.notificationPreference.set(true)
   }
   
   goAway() {
     this.userStatus.set('away');
-    // this.notificationPreference.set(false)
   }
   
   goOffline() {
     this.userStatus.set('offline');
-    // this.notificationPreference.set(false)
   }
   
   toggleStatus() {
@@ -127,15 +106,12 @@ export class LinkedSignalDemo {
     switch (current) {
       case 'offline':
         this.userStatus.set('online');
-        // this.notificationPreference.set(true)
         break;
       case 'online':
         this.userStatus.set('away');
-        // this.notificationPreference.set(false)
         break;
       case 'away':
         this.userStatus.set('offline');
-        // this.notificationPreference.set(false)
         break;
     }
   }

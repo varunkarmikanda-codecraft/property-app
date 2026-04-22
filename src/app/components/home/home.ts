@@ -1,4 +1,4 @@
-import { Component, computed, inject, signal } from '@angular/core';
+import { Component, computed, inject, linkedSignal, signal } from '@angular/core';
 import { HousingLocation } from '../housing-location/housing-location';
 import { HousingLocationInfo } from '../../models/housing-location-info';
 import { LocationService } from '../../services/location-service';
@@ -7,7 +7,6 @@ import { Router } from '@angular/router';
 
 type HousingLocationData = HousingLocationInfo & {
   selected: boolean;
-  deleted: boolean;
 };
 
 @Component({
@@ -25,37 +24,38 @@ export class Home {
   modeStatus = computed(() => {
     return this.mode() === "normal" ? "NORMAL" : "EDIT"
   });
-  
-  // housingLocationList: HousingLocationData[] = [];
 
-  originalLocationServiceInfo = signal<HousingLocationInfo[]>(this.locationService.getAllLocation());
-
-  locationServiceData = signal<HousingLocationData[]>(this.originalLocationServiceInfo().map(location => ({
-    ...location, selected: false, deleted: false
+  locationServiceData = linkedSignal<HousingLocationData[]>(() => this.locationService.getAllLocation().map(location => ({
+    ...location, selected: false
   })));
 
-  visibleItems = computed(() => this.locationServiceData().filter(x => !x.deleted));
-  selectedCount = computed(() => this.locationServiceData().filter(x => x.selected && !x.deleted).length);
-  deletedCount = computed(() => this.locationServiceData().filter(x => x.deleted).length);
+  visibleItems = computed(() => this.locationServiceData().filter(x => !this.locationService.isDeleted(x.id)));
+  selectedCount = computed(() => this.locationServiceData().filter(x => x.selected && !this.locationService.isDeleted(x.id)).length);
+  deletedCount = computed(() => this.locationService.getDeletedIds().length);
 
   handleSelectionChange(event: { id: number; selected: boolean }) {
     this.locationServiceData.update(list =>
-      list.map(x => x.id === event.id && !x.deleted ? { ...x, selected: event.selected } : x)
+      list.map(x => x.id === event.id && !this.locationService.isDeleted(x.id) ? { ...x, selected: event.selected } : x)
     );
   }
 
   deleteSelected() {
+    const selectedIds = this.locationServiceData()
+      .filter(x => x.selected)
+      .map(x => x.id);
+    
+    this.locationService.deleteItems(selectedIds);
+    
     this.locationServiceData.update(list =>
-      list.map(x => x.selected ? { ...x, selected: false, deleted: true } : x)
+      list.map(x => selectedIds.includes(x.id) ? { ...x, selected: false } : x)
     );
   }
 
   restoreOriginal() {
-    this.locationServiceData.set(this.originalLocationServiceInfo().map(x => ({ ...x, selected: false, deleted: false })));
+    this.locationService.restoreItems();
   }
 
   handleLocationClick(housingLocationInfo: HousingLocationInfo) {
-
     if(this.mode() === "normal") {
       this.router.navigate(['details', housingLocationInfo.id])
     }
