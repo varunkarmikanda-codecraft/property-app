@@ -133,12 +133,14 @@ export class LocationService {
     },
   ];
 
+  location = signal<HousingLocationInfo[]>(this.housingLocationList);
+
   getAllLocation() {
-    return this.housingLocationList;
+    return this.location.asReadonly();
   }
 
   getLocationForId(id: number): HousingLocationInfo | undefined {
-    return this.housingLocationList.find((location) => location.id === id);
+    return this.location().find((location) => location.id === id);
   }
 
   deleteItems(ids: number[]) {

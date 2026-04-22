@@ -1,5 +1,5 @@
 <div class="container">
-  <select>
+  <select (change)="handleUserInput($event)">
     @for(shippingOptions of shippingOptions(); track $index){
       <option>{{ shippingOptions }}</option>
     }

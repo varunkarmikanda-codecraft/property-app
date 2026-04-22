@@ -19,7 +19,18 @@ export class ShoppingSelection {
     'Sea'
   ]);
 
-  userSelectedShippingOptions = linkedSignal(() => this.shippingOptions()[0]);
+  // userSelectedShippingOptions = linkedSignal(() => this.shippingOptions()[0]);
+
+  userSelectedShippingOptions = linkedSignal<string[], string>({
+    source: this.shippingOptions,
+    computation: (newDependencyValue, myPreviousValue): string => {
+      if(newDependencyValue.includes(myPreviousValue?.value as string)) {
+        return myPreviousValue?.value ?? ''
+      } else {
+        return newDependencyValue[0]
+      }
+    }
+  })
 
   changeShippingOptions() {
     this.shippingOptions.set([
