@@ -136,7 +136,7 @@ export class LocationService {
   private location = signal<HousingLocationInfo[]>(this.housingLocationList);
 
   getAllLocation() {
-    return this.location;
+    return this.location.asReadonly();
   }
 
   getLocationForId(id: number): HousingLocationInfo | undefined {

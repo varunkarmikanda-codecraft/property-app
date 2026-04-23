@@ -12,7 +12,13 @@ export class ReactiveForm {
 
   myProfileForm = new FormGroup({
     firstName: new FormControl(''),
-    lastName: new FormControl('')
+    lastName: new FormControl(''),
+    address: new FormGroup({
+      street: new FormControl(''),
+      city: new FormControl(''),
+      state: new FormControl(''),
+      zip: new FormControl(''),
+    }),
   })
 
   updateName() {
@@ -26,5 +32,27 @@ export class ReactiveForm {
 
   onSubmit() {
     console.warn(this.myProfileForm.value)
+  }
+
+  updateProfile() {
+    this.myProfileForm.patchValue({
+      firstName: 'Varun',
+      address: {
+        zip: '575008',
+      },
+    });
+  }
+
+  setProfile() {
+    this.myProfileForm.setValue({
+      firstName: 'Varun',
+      lastName: 'Karmikanda',
+      address: {
+        street: null,
+        city: 'Mangalore',
+        state: 'Karnataka',
+        zip: '575008'
+      }
+    })
   }
 }

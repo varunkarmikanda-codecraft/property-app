@@ -12,6 +12,19 @@
     <input id="first-name" type="text" formControlName="firstName" />
     <label for="last-name">Last Name: </label>
     <input id="last-name" type="text" formControlName="lastName" />
+    <div formGroupName="address">
+      <h2>Address</h2>
+      <label for="street">Street: </label>
+      <input id="street" type="text" formControlName="street" />
+      <label for="city">City: </label>
+      <input id="city" type="text" formControlName="city" />
+      <label for="state">State: </label>
+      <input id="state" type="text" formControlName="state" />
+      <label for="zip">ZipCode: </label>
+      <input id="zip" type="text" formControlName="zip" />
+    </div>
     <button type="submit" [disabled]="!myProfileForm.valid">Submit</button>
+    <button type="button" (click)="updateProfile()">Update Name</button>
+    <button type="button" (click)="setProfile()">Set Profile</button>
   </form>
 </div>  
