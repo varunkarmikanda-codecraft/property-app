@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import {FormControl, FormGroup, ReactiveFormsModule} from '@angular/forms';
+import { Component, inject } from '@angular/core';
+import {FormControl, FormGroup, ReactiveFormsModule, FormBuilder, Validators} from '@angular/forms';
 
 @Component({
   selector: 'app-reactive-form',
@@ -8,18 +8,33 @@ import {FormControl, FormGroup, ReactiveFormsModule} from '@angular/forms';
   styleUrl: './reactive-form.css',
 })
 export class ReactiveForm {
+
+  formBuilder = inject(FormBuilder);
+
+  myProfileForm = this.formBuilder.group({
+    firstName: ['', [Validators.required, Validators.minLength(0)]],
+    lastName: [''],
+    email: ['', [Validators.email]],
+    address: this.formBuilder.group({
+      street: [''],
+      city: [''],
+      state: [''],
+      zip: [''],
+    })
+  })
+
   name = new FormControl('');
 
-  myProfileForm = new FormGroup({
-    firstName: new FormControl(''),
-    lastName: new FormControl(''),
-    address: new FormGroup({
-      street: new FormControl(''),
-      city: new FormControl(''),
-      state: new FormControl(''),
-      zip: new FormControl(''),
-    }),
-  })
+  // myProfileForm = new FormGroup({
+  //   firstName: new FormControl(''),
+  //   lastName: new FormControl(''),
+  //   address: new FormGroup({
+  //     street: new FormControl(''),
+  //     city: new FormControl(''),
+  //     state: new FormControl(''),
+  //     zip: new FormControl(''),
+  //   }),
+  // })
 
   updateName() {
     this.name.setValue('Varun');
@@ -36,7 +51,7 @@ export class ReactiveForm {
 
   updateProfile() {
     this.myProfileForm.patchValue({
-      firstName: 'Varun',
+      firstName: 'NitroX',
       address: {
         zip: '575008',
       },
@@ -46,7 +61,8 @@ export class ReactiveForm {
   setProfile() {
     this.myProfileForm.setValue({
       firstName: 'Varun',
-      lastName: 'Karmikanda',
+      lastName: 'Karmikanda', 
+      email: 'varun@gmail.com',
       address: {
         street: null,
         city: 'Mangalore',

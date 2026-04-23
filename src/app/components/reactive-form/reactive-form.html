@@ -7,12 +7,21 @@
 
 <div class="container">
   <form [formGroup]="myProfileForm" (ngSubmit)="onSubmit()">
-    <label for="first-name">First Name: </label>
     <!-- <input id="first-name" type="text" [formControl]="myProfileForm.controls.firstName" /> -->
+    <label for="first-name">First Name: </label>
     <input id="first-name" type="text" formControlName="firstName" />
+    @let firstName = myProfileForm.controls.firstName;
+    @if(firstName.touched && firstName.valid) {
+      <p class="error">Enter a proper name</p>
+    }
+
     <label for="last-name">Last Name: </label>
     <input id="last-name" type="text" formControlName="lastName" />
-    <div formGroupName="address">
+
+    <label for="email">Email: </label>
+    <input id="email" type="text" formControlName="email" />
+    
+    <div formGroupName="address">      
       <h2>Address</h2>
       <label for="street">Street: </label>
       <input id="street" type="text" formControlName="street" />

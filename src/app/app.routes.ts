@@ -10,6 +10,11 @@ export const routes: Routes = [
     path: 'home',
     component: Home,
     title: 'Home page',
+    children: [{
+      path: 'edit',
+      component: ReactiveForm,
+      title: 'Edit location'
+    }]
   },
   {
     path: '',

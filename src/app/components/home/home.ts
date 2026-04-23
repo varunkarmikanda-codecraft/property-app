@@ -3,7 +3,7 @@ import { HousingLocation } from '../housing-location/housing-location';
 import { HousingLocationInfo } from '../../models/housing-location-info';
 import { BASE_URL, LocationService } from '../../services/location-service';
 import { MockLocationService } from '../../services/mock-location.service';
-import { Router } from '@angular/router';
+import { Router, RouterOutlet } from '@angular/router';
 
 type HousingLocationData = HousingLocationInfo & {
   selected: boolean;
@@ -11,7 +11,7 @@ type HousingLocationData = HousingLocationInfo & {
 
 @Component({
   selector: 'app-home',
-  imports: [HousingLocation],
+  imports: [HousingLocation, RouterOutlet],
   templateUrl: './home.html',
   styleUrl: './home.css',
 })
