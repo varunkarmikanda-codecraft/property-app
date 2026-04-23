@@ -14,7 +14,7 @@ export const routes: Routes = [
     children: [{
       path: 'edit',
       component: LocationForm,
-      title: 'Edit location'
+      title: 'Add location'
     }]
   },
   {
@@ -27,6 +27,11 @@ export const routes: Routes = [
     // component: LocationDetails,
     loadComponent: () => import('./components/location-details/location-details').then(m =>m.LocationDetails),
     title: 'Home details',
+    children: [{
+      path: 'edit',
+      component: LocationForm,
+      title: 'Edit location'
+    }]
   },
   {
     path: 'counter',

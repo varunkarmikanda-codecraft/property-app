@@ -2,10 +2,11 @@ import { Component, inject, input, output } from '@angular/core';
 import { HousingLocationInfo } from '../../models/housing-location-info';
 import { BASE_URL, LocationService } from '../../services/location-service';
 import { MockLocationService } from '../../services/mock-location.service';
+import { Router, RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-housing-location',
-  imports: [],
+  imports: [RouterOutlet],
   templateUrl: './housing-location.html',
   styleUrl: './housing-location.css',
   providers: [{ provide: BASE_URL, useValue: "hehe hehe heee"}]
@@ -17,6 +18,8 @@ export class HousingLocation {
   isSelected = input<boolean>(false);
   selectedLocation = output<{ id: number, selected: boolean}>();
 
+  router = inject(Router);
+
   handleClick() {
     if(this.isEditMode()) {
       this.selectedLocation.emit({
@@ -25,6 +28,10 @@ export class HousingLocation {
       });
     }
     this.onLocationClick.emit(this.housingLocation());
+  }
+
+  handleEdit() {
+    this.router.navigate(['details', this.housingLocation().id, 'edit'])
   }
 
   // ngOnInit(){

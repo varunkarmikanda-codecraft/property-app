@@ -1,7 +1,7 @@
 <button class="container" (click)="handleClick()" [class.selected]="isEditMode() && isSelected()">
   <section class="listing">
     @if(isEditMode() && isSelected()) {
-      <div class="selection-check">✓</div> 
+      <div class="selection-check">✓</div>
     }
     <img
       class="listing-photo"
@@ -17,6 +17,11 @@
         alt="WiFi available"
         /> 
       }
+      
     </div>
+    @if(isEditMode()) {
+      <button (click)="$event.stopPropagation(); handleEdit()">Edit</button>
+    } 
   </section>
 </button>
+<router-outlet></router-outlet>

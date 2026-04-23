@@ -183,4 +183,8 @@ export class LocationService {
     return this.location().length
   }
 
+  updateLocation(updatedLocation: HousingLocationInfo) {
+    this.location.update(prevLocation => prevLocation.map(location => location.id === updatedLocation.id ? updatedLocation : location));
+  }
+
 }

@@ -15,13 +15,15 @@ export class LocationForm {
   router = inject(Router);
   activeRoute = inject(ActivatedRoute)
 
+  existingId = signal<number>(-1);  
+
   shouldShowPanel = signal<boolean>(false)
 
   locationForm = new FormGroup({
     name: new FormControl('', [Validators.required, Validators.minLength(5)]),
     location: new FormGroup({
-      city: new FormControl('', [Validators.required, Validators.minLength(5)]),
-      state: new FormControl('', [Validators.required, Validators.minLength(5)]),
+      city: new FormControl('', [Validators.required]),
+      state: new FormControl('', [Validators.required]),
     }),
     availableUnits: new FormControl('', [Validators.required]),
     wifi: new FormControl(false),
@@ -31,6 +33,26 @@ export class LocationForm {
 
   ngOnInit() {
     this.showPanel();
+
+    const id = this.activeRoute.parent?.snapshot.paramMap.get('id')
+    if(!id) return
+
+    const existingLocationDetails = this.locationService.getLocationForId(Number(id));
+    if(!existingLocationDetails) return
+
+    this.existingId.set(existingLocationDetails.id);
+
+    this.locationForm.patchValue({
+      name: existingLocationDetails.name,
+      location: {
+        city: existingLocationDetails.city,
+        state: existingLocationDetails.state
+      },
+      availableUnits: String(existingLocationDetails.availableUnits),
+      wifi: existingLocationDetails.wifi,
+      laundry: existingLocationDetails.laundry,
+      photo: existingLocationDetails.photo
+    })
   }
 
   showPanel() {
@@ -46,20 +68,27 @@ export class LocationForm {
   }
 
   submitForm() {
-    if(this.locationForm.valid){
-      const formData = this.locationForm.value;
-      const locationData: HousingLocationInfo = {
-        id: 0,
-        name: formData.name ?? '',
-        city: formData.location?.city ?? '',
-        state: formData.location?.state ?? '',
-        availableUnits: Number(formData.availableUnits) ?? 0,
-        wifi: formData.wifi ?? false,
-        laundry: formData.laundry ?? false,
-        photo: formData.photo ?? ''
-      }
+    if(!this.locationForm.valid) return
+
+    const formData = this.locationForm.value;
+    const locationData: HousingLocationInfo = {
+      id: this.existingId() !== -1 ? this.existingId() : -1,
+      name: formData.name ?? '',
+      city: formData.location?.city ?? '',
+      state: formData.location?.state ?? '',
+      availableUnits: Number(formData.availableUnits) ?? 0,
+      wifi: formData.wifi ?? false,
+      laundry: formData.laundry ?? false,
+      photo: formData.photo ?? ''
+    }
+
+    if(this.existingId() !== -1) {
+      this.locationService.updateLocation(locationData)
+    } else {
       this.locationService.addLocation(locationData)
     }
+
+    this.closePanel()
   }
 
   fillDummyData() {

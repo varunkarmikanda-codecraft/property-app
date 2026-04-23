@@ -1,11 +1,11 @@
 import { Component, inject, input, signal } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterOutlet } from '@angular/router';
 import { LocationService } from '../../services/location-service';
 import { HousingLocationInfo } from '../../models/housing-location-info';
 
 @Component({
   selector: 'app-location-details',
-  imports: [],
+  imports: [RouterOutlet],
   templateUrl: './location-details.html',
   styleUrl: './location-details.css',
 })

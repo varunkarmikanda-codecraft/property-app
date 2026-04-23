@@ -1,7 +1,7 @@
 <div class="overlay">
   <div class="panel" [class.show-panel]="shouldShowPanel()">
-    <button class="close-btn" (click)="closePanel()">X</button>
-    <form [formGroup]="locationForm">
+    <button type="button" class="close-btn" (click)="closePanel()">X</button>
+    <form [formGroup]="locationForm" (ngSubmit)="submitForm()">
       <label for="location-name">Location name: </label>
       <input id="location-name" type="text" formControlName="name"/>
       @if(getError('name')) {
@@ -40,7 +40,7 @@
         <p class="error">Photo is required</p>
       }
 
-      <button type="submit" (click)="submitForm()">Submit</button>
+      <button type="submit">Submit</button>
       <button type="button" (click)="fillDummyData()">Dummy data</button>
     </form>
   </div>
