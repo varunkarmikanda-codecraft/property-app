@@ -4,6 +4,7 @@ import { LocationDetails } from './components/location-details/location-details'
 import { Counter } from './components/counter/counter';
 import { LinkedSignalDemo } from './components/linked-signal-demo/linked-signal-demo';
 import { ReactiveForm } from './components/reactive-form/reactive-form';
+import { LocationForm } from './location-form/location-form';
 
 export const routes: Routes = [
   {
@@ -12,7 +13,7 @@ export const routes: Routes = [
     title: 'Home page',
     children: [{
       path: 'edit',
-      component: ReactiveForm,
+      component: LocationForm,
       title: 'Edit location'
     }]
   },

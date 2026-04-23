@@ -3,7 +3,7 @@ import { HousingLocation } from '../housing-location/housing-location';
 import { HousingLocationInfo } from '../../models/housing-location-info';
 import { BASE_URL, LocationService } from '../../services/location-service';
 import { MockLocationService } from '../../services/mock-location.service';
-import { Router, RouterOutlet } from '@angular/router';
+import { ActivatedRoute, Router, RouterOutlet } from '@angular/router';
 
 type HousingLocationData = HousingLocationInfo & {
   selected: boolean;
@@ -18,6 +18,7 @@ type HousingLocationData = HousingLocationInfo & {
 export class Home {
   locationService: LocationService = inject(LocationService);
   router = inject(Router)
+  activatedRoute = inject(ActivatedRoute);
   baseUrl = inject(BASE_URL)
 
   mode = signal<"normal" | "edit">('normal')
@@ -119,20 +120,22 @@ export class Home {
 
   addHousingLocation() {
 
-    console.log("Starting to add housing location...")
+    // console.log("Starting to add housing location...")
 
-    const data: HousingLocationInfo = {
-      id: 0,
-      name: 'Codecraft',
-      city: 'Mangalore',
-      state: 'Karnataka',
-      photo: `${this.baseUrl}/bernard-hermant-CLKGGwIBTaY-unsplash.jpg`,
-      availableUnits: 1,
-      wifi: true,
-      laundry: true,
-    }
+    // const data: HousingLocationInfo = {
+    //   id: 0,
+    //   name: 'Codecraft',
+    //   city: 'Mangalore',
+    //   state: 'Karnataka',
+    //   photo: `${this.baseUrl}/bernard-hermant-CLKGGwIBTaY-unsplash.jpg`,
+    //   availableUnits: 1,
+    //   wifi: true,
+    //   laundry: true,
+    // }
 
-    this.locationService.addLocation(data)
+    // this.locationService.addLocation(data)
+
+    this.router.navigate(['edit'], { relativeTo: this.activatedRoute })
   }
 
 }
