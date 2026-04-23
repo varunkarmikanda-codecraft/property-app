@@ -1,4 +1,5 @@
-import { Component, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-location-form',
@@ -7,6 +8,8 @@ import { Component, signal } from '@angular/core';
   styleUrl: './location-form.css',
 })
 export class LocationForm {
+  router = inject(Router);
+
   shouldShowPanel = signal<boolean>(false)
 
   ngOnInit() {
@@ -19,5 +22,9 @@ export class LocationForm {
 
   hidePanel() {
     this.shouldShowPanel.set(false);
+  }
+
+  closePanel() {
+    this.router.navigate(['../'])
   }
 }
