@@ -11,7 +11,7 @@ import { HousingLocationInfo } from '../models/housing-location-info';
   styleUrl: './location-form.css',
 })
 export class LocationForm {
-  // locationService: LocationService = inject(LocationService)
+  locationService: LocationService = inject(LocationService)
   router = inject(Router);
   activeRoute = inject(ActivatedRoute)
 
@@ -23,10 +23,10 @@ export class LocationForm {
       city: new FormControl('', [Validators.required, Validators.minLength(5)]),
       state: new FormControl('', [Validators.required, Validators.minLength(5)]),
     }),
-    availableUnits: new FormControl(''),
+    availableUnits: new FormControl('', [Validators.required]),
     wifi: new FormControl(false),
     laundry: new FormControl(false),
-    photo: new FormControl('')
+    photo: new FormControl('', [Validators.required])
   })
 
   ngOnInit() {
@@ -45,22 +45,22 @@ export class LocationForm {
     this.router.navigate(['../'])
   }
 
-  // submitForm() {
-  //   if(this.locationForm.valid){
-  //     console.log(this.locationForm.value)
-  //     const formData = this.locationForm.value;
-  //     const locationData: HousingLocationInfo = {
-  //       name: formData.name!,
-  //       city: formData.location?.city!,
-
-  //     }
-  //     const locationData = { ...this.locationForm.value, id: 0}
-  //     this.locationService.addLocation(locationData)
-  //   }
-  //   else {
-  //     console.warn('Nah cook again')
-  //   }
-  // }
+  submitForm() {
+    if(this.locationForm.valid){
+      const formData = this.locationForm.value;
+      const locationData: HousingLocationInfo = {
+        id: 0,
+        name: formData.name ?? '',
+        city: formData.location?.city ?? '',
+        state: formData.location?.state ?? '',
+        availableUnits: Number(formData.availableUnits) ?? 0,
+        wifi: formData.wifi ?? false,
+        laundry: formData.laundry ?? false,
+        photo: formData.photo ?? ''
+      }
+      this.locationService.addLocation(locationData)
+    }
+  }
 
   fillDummyData() {
     this.locationForm.setValue({
@@ -74,5 +74,10 @@ export class LocationForm {
       laundry: null,
       photo: "https://angular.dev/assets/images/tutorials/common/webaliser-_TPTXZd9mOo-unsplash.jpg"
     })
+  }
+
+  getError(controlPath: string) {
+    const control = this.locationForm.get(controlPath);
+    return (control?.touched && !control.valid);
   }
 }

@@ -4,17 +4,29 @@
     <form [formGroup]="locationForm">
       <label for="location-name">Location name: </label>
       <input id="location-name" type="text" formControlName="name"/>
+      @if(getError('name')) {
+        <p class="error">Name is required and must have atleast 5 characters</p>
+      }
 
       <div formGroupName="location">
         <label for="location-city">City: </label>
         <input id="location-city" type="text" formControlName="city">
+        @if(getError('location.city')) {
+          <p class="error">City is required</p>
+        }
 
         <label for="location-state">State: </label>
         <input id="location-state" type="text" formControlName="state">
+        @if(getError('location.state')) {
+          <p class="error">State is required</p>
+        }
       </div>
 
       <label for="available-units">Available units: </label>
       <input id="available-units" type="number" formControlName="availableUnits">
+      @if(getError('availableUnits')) {
+        <p class="error">Available units is required</p>
+      }
 
       <label for="wifi">Has wifi: </label>
       <input id="wifi" type="checkbox" formControlName="wifi">
@@ -24,6 +36,9 @@
 
       <label for="location-photo">Location photo: </label>
       <input id="location-photo" type="text" formControlName="photo"/>
+      @if(getError('photo')) {
+        <p class="error">Photo is required</p>
+      }
 
       <button type="submit" (click)="submitForm()">Submit</button>
       <button type="button" (click)="fillDummyData()">Dummy data</button>

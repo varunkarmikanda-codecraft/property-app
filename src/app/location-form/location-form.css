@@ -40,3 +40,7 @@ form {
   margin-top: 75px;
   padding: 10px;
 }
+
+.error {
+  color: red;
+}
