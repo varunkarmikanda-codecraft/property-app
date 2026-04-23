@@ -1,5 +1,32 @@
 <div class="overlay">
   <div class="panel" [class.show-panel]="shouldShowPanel()">
     <button class="close-btn" (click)="closePanel()">X</button>
+    <form [formGroup]="locationForm">
+      <label for="location-name">Location name: </label>
+      <input id="location-name" type="text" formControlName="name"/>
+
+      <div formGroupName="location">
+        <label for="location-city">City: </label>
+        <input id="location-city" type="text" formControlName="city">
+
+        <label for="location-state">State: </label>
+        <input id="location-state" type="text" formControlName="state">
+      </div>
+
+      <label for="available-units">Available units: </label>
+      <input id="available-units" type="number" formControlName="availableUnits">
+
+      <label for="wifi">Has wifi: </label>
+      <input id="wifi" type="checkbox" formControlName="wifi">
+
+      <label for="laundry">Has laundry: </label>
+      <input id="laundry" type="checkbox" formControlName="laundry">
+
+      <label for="location-photo">Location photo: </label>
+      <input id="location-photo" type="text" formControlName="photo"/>
+
+      <button type="submit" (click)="submitForm()">Submit</button>
+      <button type="button" (click)="fillDummyData()">Dummy data</button>
+    </form>
   </div>
 </div>
