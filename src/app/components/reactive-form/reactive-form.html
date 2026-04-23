@@ -1,6 +1,17 @@
 <div class="container">
-  <label for="name">Name</label>
-  <input id="name" type="text" [formControl]="name">
-  <p>Value {{ name.value }}</p>
+  <label for="name">Name: </label>
+  <input id="name" type="text" (keydown)="handleChange($event)" [formControl]="name"  >
+  <p>Value: {{ name.value }}</p>
   <button type="button" (click)="updateName()">Update Name</button>
 </div>
+
+<div class="container">
+  <form [formGroup]="myProfileForm" (ngSubmit)="onSubmit()">
+    <label for="first-name">First Name: </label>
+    <!-- <input id="first-name" type="text" [formControl]="myProfileForm.controls.firstName" /> -->
+    <input id="first-name" type="text" formControlName="firstName" />
+    <label for="last-name">Last Name: </label>
+    <input id="last-name" type="text" formControlName="lastName" />
+    <button type="submit" [disabled]="!myProfileForm.valid">Submit</button>
+  </form>
+</div>  
