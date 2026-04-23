@@ -64,6 +64,10 @@ export class LocationForm {
   }
 
   closePanel() {
+    if(this.locationForm.dirty) {
+      const confirmClose = window.confirm('You have unsaved changes. Do you want to close?');
+      if(!confirmClose) return
+    }
     this.router.navigate(['../'])
   }
 

@@ -1,5 +1,5 @@
-<div class="overlay">
-  <div class="panel" [class.show-panel]="shouldShowPanel()">
+<div class="overlay" (click)="closePanel()">
+  <div class="panel" [class.show-panel]="shouldShowPanel()" (click)="$event.stopPropagation()">
     <button type="button" class="close-btn" (click)="closePanel()">X</button>
     <form [formGroup]="locationForm" (ngSubmit)="submitForm()">
       <label for="location-name">Location name: </label>
