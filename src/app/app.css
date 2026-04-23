@@ -1,0 +1,11 @@
+.nav-bar {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+
+.nav-bar a {
+  text-decoration: none;
+  color: black;
+  
+}

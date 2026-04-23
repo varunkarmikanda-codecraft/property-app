@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, input, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LocationService } from '../../services/location-service';
 import { HousingLocationInfo } from '../../models/housing-location-info';
@@ -14,7 +14,9 @@ export class LocationDetails {
   // and get the object from it and get the dynamic param from the url
 
   route: ActivatedRoute = inject(ActivatedRoute);
-  housingLocationId = -1;
+  // housingLocationId = -1;
+  // name of the input signal must match the url param 
+  id = input.required<number>();
 
   locationService: LocationService = inject(LocationService);
 
@@ -37,21 +39,7 @@ export class LocationDetails {
   }
 
   ngOnInit() {
-    this.route.params.subscribe((params) => {
-      this.housingLocationId = Number(params['id']);
-      this.location = this.locationService.getLocationForId(this.housingLocationId);
-
-      if (this.housingLocationId === 0) {
-        this.prevDisabled.set(true);
-      } else {
-        this.prevDisabled.set(false);
-      }
-      if (this.housingLocationId >= this.locationService.getAllLocation().length - 1) {
-        this.nextDisabled.set(true);
-      } else {
-        this.nextDisabled.set(false);
-      }
-    });
+    this.location = this.locationService.getLocationForId(Number(this.id()))
   }
 
   ngOnDestroy() {
@@ -60,7 +48,6 @@ export class LocationDetails {
 
   handlePrev(housingLocationInfo: HousingLocationInfo | undefined) {
     if (this.prevDisabled()) return;
-    console.log('lololololol');
     if (housingLocationInfo && housingLocationInfo.id >= 0) {
       const prevId = housingLocationInfo.id - 1;
       if (prevId >= 0) {

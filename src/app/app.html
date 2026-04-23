@@ -1,12 +1,14 @@
 <main>
-  <a [routerLink]="['/']">
-  <header class="brand-name">
-    <img class="brand-logo" src="public/logo.svg" alt="logo" aria-hidden="true" />
-  </header>
-  </a>
-  <section class="content">
-    <router-outlet/>
-  </section>
+  <nav class="nav-bar">
+    <a [routerLink]="['/']">
+      <img class="brand-logo" src="public/logo.svg" alt="logo" aria-hidden="true" />
+    </a>
+    <a [routerLink]="['/linked-signal']">Signal demo</a>
+    <a [routerLink]="['/reactive-form']">Form</a>
+  </nav>
+    <section class="content">
+      <router-outlet/>
+    </section>
 </main>
 <!-- <footer class="bottom-bar">
   <nav class="nav-menu">

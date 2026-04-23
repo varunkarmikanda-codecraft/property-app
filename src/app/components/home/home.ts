@@ -34,7 +34,7 @@ export class Home {
   //     return viewAllLocations;
   //   });
 
-    locationServiceData = linkedSignal<HousingLocationInfo[], HousingLocationData[]>(
+  locationServiceData = linkedSignal<HousingLocationInfo[], HousingLocationData[]>(
     {
       source: this.locationService.getAllLocation(),
       computation: (newDependencyHouseLocationInfoArray, previousValue) => {

@@ -133,10 +133,10 @@ export class LocationService {
     },
   ];
 
-  location = signal<HousingLocationInfo[]>(this.housingLocationList);
+  private location = signal<HousingLocationInfo[]>(this.housingLocationList);
 
   getAllLocation() {
-    return this.location.asReadonly();
+    return this.location;
   }
 
   getLocationForId(id: number): HousingLocationInfo | undefined {
