@@ -1,44 +1,63 @@
 <div class="overlay" (click)="closePanel()">
   <div class="panel" [class.show-panel]="shouldShowPanel()" (click)="$event.stopPropagation()">
     <button type="button" class="close-btn" (click)="closePanel()">X</button>
+    <h3>Location form</h3>
     <form [formGroup]="locationForm" (ngSubmit)="submitForm()">
       <label for="location-name">Location name: </label>
       <input id="location-name" type="text" formControlName="name"/>
+      <div class="error-container">
       @if(getError('name')) {
         <p class="error">Name is required and must have atleast 5 characters</p>
       }
+      </div>
 
-      <div formGroupName="location">
+      <div formGroupName="location" class="location-container">
+        <div>
         <label for="location-city">City: </label>
         <input id="location-city" type="text" formControlName="city">
-        @if(getError('location.city')) {
-          <p class="error">City is required</p>
-        }
+          <div class="error-container">
+            @if(getError('location.city')) {
+              <p class="error">City is required</p>
+            }
+          </div>
+        </div>
 
+        <div>
         <label for="location-state">State: </label>
         <input id="location-state" type="text" formControlName="state">
-        @if(getError('location.state')) {
-          <p class="error">State is required</p>
-        }
+          <div class="error-container">
+            @if(getError('location.state')) {
+              <p class="error">State is required</p>
+            }
+          </div>
+        </div>
       </div>
 
       <label for="available-units">Available units: </label>
       <input id="available-units" type="number" formControlName="availableUnits">
+      <div class="error-container">
       @if(getError('availableUnits')) {
         <p class="error">Available units is required</p>
       }
+      </div>
 
-      <label for="wifi">Has wifi: </label>
-      <input id="wifi" type="checkbox" formControlName="wifi">
+      <label for="wifi">Has wifi:
+        <input id="wifi" type="checkbox" formControlName="wifi"> 
+      </label>
 
-      <label for="laundry">Has laundry: </label>
-      <input id="laundry" type="checkbox" formControlName="laundry">
+      <label for="laundry">Has laundry: 
+        <input id="laundry" type="checkbox" formControlName="laundry">
+      </label>
+      
 
       <label for="location-photo">Location photo: </label>
       <input id="location-photo" type="text" formControlName="photo"/>
+      <div class="error-container">
       @if(getError('photo')) {
         <p class="error">Photo is required</p>
       }
+      </div>
+
 
       <button type="submit">Submit</button>
       <button type="button" (click)="fillDummyData()">Dummy data</button>

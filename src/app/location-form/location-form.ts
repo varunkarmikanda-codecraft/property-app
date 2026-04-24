@@ -64,15 +64,15 @@ export class LocationForm {
   }
 
   closePanel() {
-    if(this.locationForm.dirty) {
-      const confirmClose = window.confirm('You have unsaved changes. Do you want to close?');
-      if(!confirmClose) return
-    }
+    // if(this.locationForm.dirty) {
+    //   const confirmClose = window.confirm('You have unsaved changes. Do you want to close?');
+    //   if(!confirmClose) return
+    // }
     this.router.navigate(['../'])
   }
 
   submitForm() {
-    if(!this.locationForm.valid) return
+    if(!this.locationForm.valid) return;
 
     const formData = this.locationForm.value;
     const locationData: HousingLocationInfo = {
