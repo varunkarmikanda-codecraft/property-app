@@ -11,13 +11,13 @@ import { HousingLocationInfo } from '../models/housing-location-info';
   styleUrl: './location-form.css',
 })
 export class LocationForm {
-  locationService: LocationService = inject(LocationService)
+  locationService: LocationService = inject(LocationService);
   router = inject(Router);
-  activeRoute = inject(ActivatedRoute)
+  activeRoute = inject(ActivatedRoute);
 
-  existingId = signal<number>(-1);  
+  existingId = signal<number>(-1);
 
-  shouldShowPanel = signal<boolean>(false)
+  shouldShowPanel = signal<boolean>(false);
 
   locationForm = new FormGroup({
     name: new FormControl('', [Validators.required, Validators.minLength(5)]),
@@ -28,17 +28,17 @@ export class LocationForm {
     availableUnits: new FormControl('', [Validators.required]),
     wifi: new FormControl(false),
     laundry: new FormControl(false),
-    photo: new FormControl('', [Validators.required])
-  })
+    photo: new FormControl('', [Validators.required]),
+  });
 
   ngOnInit() {
     this.showPanel();
 
-    const id = this.activeRoute.parent?.snapshot.paramMap.get('id')
-    if(!id) return
+    const id = this.activeRoute.parent?.snapshot.paramMap.get('id');
+    if (!id) return;
 
     const existingLocationDetails = this.locationService.getLocationForId(Number(id));
-    if(!existingLocationDetails) return
+    if (!existingLocationDetails) return;
 
     this.existingId.set(existingLocationDetails.id);
 
@@ -46,13 +46,13 @@ export class LocationForm {
       name: existingLocationDetails.name,
       location: {
         city: existingLocationDetails.city,
-        state: existingLocationDetails.state
+        state: existingLocationDetails.state,
       },
       availableUnits: String(existingLocationDetails.availableUnits),
       wifi: existingLocationDetails.wifi,
       laundry: existingLocationDetails.laundry,
-      photo: existingLocationDetails.photo
-    })
+      photo: existingLocationDetails.photo,
+    });
   }
 
   showPanel() {
@@ -60,19 +60,20 @@ export class LocationForm {
   }
 
   hidePanel() {
-    this.shouldShowPanel.set(false);
+    // this.shouldShowPanel.set(false);
+    this.router.navigate(['../'], { relativeTo: this.activeRoute });
   }
 
   closePanel() {
-    // if(this.locationForm.dirty) {
-    //   const confirmClose = window.confirm('You have unsaved changes. Do you want to close?');
-    //   if(!confirmClose) return
-    // }
-    this.router.navigate(['../'])
+    if (this.locationForm.dirty) {
+      const confirmClose = window.confirm('You have unsaved changes. Do you want to close?');
+      if (!confirmClose) return;
+    }
+    this.router.navigate(['../'], { relativeTo: this.activeRoute });
   }
 
   submitForm() {
-    if(!this.locationForm.valid) return;
+    if (!this.locationForm.valid) return;
 
     const formData = this.locationForm.value;
     const locationData: HousingLocationInfo = {
@@ -83,16 +84,16 @@ export class LocationForm {
       availableUnits: Number(formData.availableUnits) ?? 0,
       wifi: formData.wifi ?? false,
       laundry: formData.laundry ?? false,
-      photo: formData.photo ?? ''
-    }
+      photo: formData.photo ?? '',
+    };
 
-    if(this.existingId() !== -1) {
-      this.locationService.updateLocation(locationData)
+    if (this.existingId() !== -1) {
+      this.locationService.updateLocation(locationData);
     } else {
-      this.locationService.addLocation(locationData)
+      this.locationService.addLocation(locationData);
     }
 
-    this.closePanel()
+    this.hidePanel();
   }
 
   fillDummyData() {
@@ -100,17 +101,18 @@ export class LocationForm {
       name: 'City center',
       location: {
         city: 'Mangalore',
-        state: 'Karnataka'
+        state: 'Karnataka',
       },
       availableUnits: '1',
       wifi: true,
       laundry: null,
-      photo: "https://angular.dev/assets/images/tutorials/common/webaliser-_TPTXZd9mOo-unsplash.jpg"
-    })
+      photo:
+        'https://angular.dev/assets/images/tutorials/common/webaliser-_TPTXZd9mOo-unsplash.jpg',
+    });
   }
 
   getError(controlPath: string) {
     const control = this.locationForm.get(controlPath);
-    return (control?.touched && !control.valid);
+    return control?.touched && !control.valid;
   }
 }

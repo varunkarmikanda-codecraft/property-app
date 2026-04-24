@@ -7,7 +7,6 @@
   z-index: 1000;
 }
 
-/* SIDE PANEL */
 .panel {
   width: 40vw;
   max-width: 520px;
@@ -57,14 +56,12 @@ form {
   gap: 10px;
 }
 
-/* LABELS */
 label {
   font-size: 0.9rem;
   font-weight: 600;
   margin-top: 10px;
 }
 
-/* INPUTS */
 input[type="text"],
 input[type="number"] {
   padding: 10px;

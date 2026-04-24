@@ -124,3 +124,14 @@
 .container:active {
   transform: scale(0.96);
 }
+
+.edit-btn {
+  padding: 10px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  transition: 0.2s;
+  width: 4rem;
+  background-color: #605dec;
+}
