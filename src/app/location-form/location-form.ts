@@ -1,12 +1,13 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, HostListener, inject, signal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LocationService } from '../services/location-service';
 import { HousingLocationInfo } from '../models/housing-location-info';
+import { A11yModule } from '@angular/cdk/a11y';
 
 @Component({
   selector: 'app-location-form',
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, A11yModule],
   templateUrl: './location-form.html',
   styleUrl: './location-form.css',
 })
@@ -57,10 +58,12 @@ export class LocationForm {
 
   showPanel() {
     this.shouldShowPanel.set(true);
+    document.body.style.overflow = 'hidden';
   }
 
   hidePanel() {
     // this.shouldShowPanel.set(false);
+    document.body.style.overflow = 'visible';
     this.router.navigate(['../'], { relativeTo: this.activeRoute });
   }
 
@@ -70,6 +73,7 @@ export class LocationForm {
       if (!confirmClose) return;
     }
     this.router.navigate(['../'], { relativeTo: this.activeRoute });
+    document.body.style.overflow = 'visible';
   }
 
   submitForm() {
@@ -114,5 +118,11 @@ export class LocationForm {
   getError(controlPath: string) {
     const control = this.locationForm.get(controlPath);
     return control?.touched && !control.valid;
+  }
+
+  @HostListener('document:keydown.escape', ['$event'])
+  handleEscape(event: Event) {
+    console.log('Esc was pressed!');
+    this.closePanel(); 
   }
 }

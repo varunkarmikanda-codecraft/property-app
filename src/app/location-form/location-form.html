@@ -1,10 +1,10 @@
 <div class="overlay" (click)="closePanel()">
-  <div class="panel" [class.show-panel]="shouldShowPanel()" (click)="$event.stopPropagation()">
+  <div class="panel" [class.show-panel]="shouldShowPanel()" (click)="$event.stopPropagation()" cdkTrapFocus cdkTrapFocusAutoCapture>
     <button type="button" class="close-btn" (click)="closePanel()">X</button>
     <h3>Location form</h3>
     <form [formGroup]="locationForm" (ngSubmit)="submitForm()">
       <label for="location-name">Location name: </label>
-      <input id="location-name" type="text" formControlName="name"/>
+      <input id="location-name" type="text" formControlName="name" cdkFocusInitial/>
       <div class="error-container">
       @if(getError('name')) {
         <p class="error">Name is required and must have atleast 5 characters</p>
