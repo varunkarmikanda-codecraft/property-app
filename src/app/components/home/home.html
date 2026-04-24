@@ -4,9 +4,14 @@
       <input type="text" placeholder="Filter by city" />
       <button class="primary" type="button">Search</button>
     </form>
+    <div class="toolbar-buttons">
     <label class="edit-toggle">
-      <input type="checkbox" (change)="handleCheckbox()" />
-      <span>MODE</span>
+      <!-- <input type="checkbox" (change)="handleCheckbox()" />
+      <span>MODE</span> -->
+      <label class="switch">
+        <input type="checkbox" (change)="handleCheckbox()" [checked]="mode() === 'edit'"/>
+        <span class="slider"></span>
+      </label>
       <span class="status-badge" [class.editing]="mode() === 'edit'">
         {{ modeStatus() }}
       </span>
@@ -17,7 +22,7 @@
       (click)="deleteSelected()"
       [disabled]="mode() !== 'edit' || selectedCount() === 0"
     >
-      Delete Selected ({{ selectedCount() }})
+      Delete ({{ selectedCount() }})
     </button>
     <button
       class="secondary"
@@ -34,6 +39,7 @@
     >
       Add
     </button>
+    </div>
   </div>  
 </section>
 <section class="results">
