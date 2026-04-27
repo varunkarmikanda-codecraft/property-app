@@ -84,6 +84,7 @@ export class Home {
   }
 
   handleLocationClick(housingLocationInfo: HousingLocationInfo) {
+    console.log(housingLocationInfo)
     if(this.mode() === "normal") {
       this.router.navigate(['details', housingLocationInfo.id])
       const viewModels = this.locationServiceData().map(vm => {

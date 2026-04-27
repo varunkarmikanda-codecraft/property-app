@@ -1,4 +1,4 @@
-import { Component, inject, input, signal } from '@angular/core';
+import { Component, computed, inject, input, signal } from '@angular/core';
 import { ActivatedRoute, Router, RouterOutlet } from '@angular/router';
 import { LocationService } from '../../services/location-service';
 import { HousingLocationInfo } from '../../models/housing-location-info';
@@ -15,12 +15,14 @@ export class LocationDetails {
 
   route: ActivatedRoute = inject(ActivatedRoute);
   // housingLocationId = -1;
-  // name of the input signal must match the url param 
+  // name of the input signal must match the url param
   id = input.required<number>();
 
   locationService: LocationService = inject(LocationService);
 
-  location: HousingLocationInfo | undefined;
+  location = computed(() => {
+    return this.locationService.getLocationForId(Number(this.id()));
+  });
 
   router = inject(Router);
 
@@ -39,7 +41,7 @@ export class LocationDetails {
   }
 
   ngOnInit() {
-    this.location = this.locationService.getLocationForId(Number(this.id()))
+    // this.location = this.locationService.getLocationForId(Number(this.id()));
   }
 
   ngOnDestroy() {

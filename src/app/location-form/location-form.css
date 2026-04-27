@@ -45,6 +45,14 @@ form {
   padding: 10px;
 }
 
+form > label {
+  margin-bottom: -7px;
+}
+
+form > .error-container {
+  margin-top: -10px;
+}
+
 .error-container {
   height: 20px;
   display: flex;
@@ -56,10 +64,28 @@ form {
   gap: 10px;
 }
 
+.location-container > div {
+  flex: 1; 
+  display: flex;
+  flex-direction: column;
+  min-width: 0; 
+}
+
+.location-container input {
+  width: 100%; 
+  box-sizing: border-box;
+}
+
 label {
   font-size: 0.9rem;
   font-weight: 600;
   margin-top: 10px;
+  
+  /* Add these lines */
+  display: flex;
+  align-items: center;
+  gap: 8px; /* Creates consistent space between text and checkbox */
+  cursor: pointer;
 }
 
 input[type="text"],
@@ -79,13 +105,14 @@ input:focus {
 
 input[type="checkbox"] {
   transform: scale(1.2);
-  margin-left: 5px;
+  margin: 0; 
+  cursor: pointer;
 }
 
 .error {
   color: #e11d48;
   font-size: 0.8rem;
-  min-height: 16px;
+  min-height: 10px;
 }
 
 button {
@@ -112,4 +139,10 @@ button[type="button"] {
 
 button[type="button"]:hover {
   background: #d1d5db;
+}
+
+button[type="submit"]:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+  opacity: 0.7;
 }

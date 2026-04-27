@@ -1,6 +1,6 @@
 <div class="overlay" (click)="closePanel()">
   <div class="panel" [class.show-panel]="shouldShowPanel()" (click)="$event.stopPropagation()" cdkTrapFocus cdkTrapFocusAutoCapture>
-    <button type="button" class="close-btn" (click)="closePanel()">X</button>
+    <button type="button" class="close-btn" (click)="closePanel()" aria-label="close button">X</button>
     <h3>Location form</h3>
     <form [formGroup]="locationForm" (ngSubmit)="submitForm()">
       <label for="location-name">Location name: </label>
@@ -59,7 +59,7 @@
       </div>
 
 
-      <button type="submit">Submit</button>
+      <button type="submit" [disabled]="!locationForm.valid">Save</button>
       <button type="button" (click)="fillDummyData()">Dummy data</button>
     </form>
   </div>

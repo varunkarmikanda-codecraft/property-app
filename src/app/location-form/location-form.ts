@@ -10,6 +10,9 @@ import { A11yModule } from '@angular/cdk/a11y';
   imports: [ReactiveFormsModule, A11yModule],
   templateUrl: './location-form.html',
   styleUrl: './location-form.css',
+  host: {
+    '(document:keydown.escape)': 'handleEscape()'
+  }
 })
 export class LocationForm {
   locationService: LocationService = inject(LocationService);
@@ -63,7 +66,7 @@ export class LocationForm {
 
   hidePanel() {
     // this.shouldShowPanel.set(false);
-    document.body.style.overflow = 'visible';
+    document.body.style.overflow = 'auto';
     this.router.navigate(['../'], { relativeTo: this.activeRoute });
   }
 
@@ -73,11 +76,11 @@ export class LocationForm {
       if (!confirmClose) return;
     }
     this.router.navigate(['../'], { relativeTo: this.activeRoute });
-    document.body.style.overflow = 'visible';
+    document.body.style.overflow = 'auto';
   }
 
   submitForm() {
-    if (!this.locationForm.valid) return;
+    if (!this.locationForm.valid) return
 
     const formData = this.locationForm.value;
     const locationData: HousingLocationInfo = {
@@ -120,8 +123,7 @@ export class LocationForm {
     return control?.touched && !control.valid;
   }
 
-  @HostListener('document:keydown.escape', ['$event'])
-  handleEscape(event: Event) {
+  handleEscape() {
     console.log('Esc was pressed!');
     this.closePanel(); 
   }
