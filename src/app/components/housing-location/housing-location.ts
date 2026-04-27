@@ -1,8 +1,8 @@
-import { Component, inject, input, output } from '@angular/core';
+import { Component, inject, input, output, signal } from '@angular/core';
 import { HousingLocationInfo } from '../../models/housing-location-info';
 import { BASE_URL, LocationService } from '../../services/location-service';
 import { MockLocationService } from '../../services/mock-location.service';
-import { Router, RouterOutlet } from '@angular/router';
+import { ActivatedRoute, Router, RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-housing-location',
@@ -13,6 +13,7 @@ import { Router, RouterOutlet } from '@angular/router';
 })
 export class HousingLocation {
   housingLocation = input.required<HousingLocationInfo>();
+  activatedRoute = inject(ActivatedRoute)
   onLocationClick = output<HousingLocationInfo>();
   isEditMode = input<boolean>(false);
   isSelected = input<boolean>(false);
@@ -31,7 +32,10 @@ export class HousingLocation {
   }
 
   handleEdit() {
-    this.router.navigate(['details', this.housingLocation().id, 'edit'])
+    this.router.navigate(['edit'], {
+      relativeTo: this.activatedRoute,
+      queryParams: { id: this.housingLocation().id }
+    })
   }
 
   // ngOnInit(){

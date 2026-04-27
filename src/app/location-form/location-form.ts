@@ -1,5 +1,5 @@
-import { Component, HostListener, inject, signal } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Component, HostListener, inject, input, Input, signal } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LocationService } from '../services/location-service';
 import { HousingLocationInfo } from '../models/housing-location-info';
@@ -15,33 +15,37 @@ import { A11yModule } from '@angular/cdk/a11y';
   }
 })
 export class LocationForm {
+
+  id = input.required<string>()
+
   locationService: LocationService = inject(LocationService);
   router = inject(Router);
-  activeRoute = inject(ActivatedRoute);
+  activatedRoute = inject(ActivatedRoute);
+  formBuilder = inject(FormBuilder);
 
   existingId = signal<number>(-1);
 
   shouldShowPanel = signal<boolean>(false);
 
-  locationForm = new FormGroup({
-    name: new FormControl('', [Validators.required, Validators.minLength(5)]),
-    location: new FormGroup({
-      city: new FormControl('', [Validators.required]),
-      state: new FormControl('', [Validators.required]),
+  locationForm = this.formBuilder.nonNullable.group({
+    name: ['', [Validators.required, Validators.minLength(5)]],
+    location: this.formBuilder.nonNullable.group({
+      city: ['', [Validators.required]],
+      state: ['', [Validators.required]],
     }),
-    availableUnits: new FormControl('', [Validators.required]),
-    wifi: new FormControl(false),
-    laundry: new FormControl(false),
-    photo: new FormControl('', [Validators.required]),
+    availableUnits: [0, [Validators.required, Validators.min(0)]],
+    wifi: [false],
+    laundry: [false],  
+    photo: ['', [Validators.required, Validators.pattern('https?://.+')]],
   });
 
   ngOnInit() {
     this.showPanel();
 
-    const id = this.activeRoute.parent?.snapshot.paramMap.get('id');
-    if (!id) return;
+    if (!this.id()) return;
+    console.log(this.id())
 
-    const existingLocationDetails = this.locationService.getLocationForId(Number(id));
+    const existingLocationDetails = this.locationService.getLocationForId(Number(this.id()));
     if (!existingLocationDetails) return;
 
     this.existingId.set(existingLocationDetails.id);
@@ -52,7 +56,7 @@ export class LocationForm {
         city: existingLocationDetails.city,
         state: existingLocationDetails.state,
       },
-      availableUnits: String(existingLocationDetails.availableUnits),
+      availableUnits: existingLocationDetails.availableUnits,
       wifi: existingLocationDetails.wifi,
       laundry: existingLocationDetails.laundry,
       photo: existingLocationDetails.photo,
@@ -67,7 +71,7 @@ export class LocationForm {
   hidePanel() {
     // this.shouldShowPanel.set(false);
     document.body.style.overflow = 'auto';
-    this.router.navigate(['../'], { relativeTo: this.activeRoute });
+    this.router.navigate(['../'], { relativeTo: this.activatedRoute });
   }
 
   closePanel() {
@@ -75,23 +79,23 @@ export class LocationForm {
       const confirmClose = window.confirm('You have unsaved changes. Do you want to close?');
       if (!confirmClose) return;
     }
-    this.router.navigate(['../'], { relativeTo: this.activeRoute });
+    this.router.navigate(['../'], { relativeTo: this.activatedRoute  });
     document.body.style.overflow = 'auto';
   }
 
   submitForm() {
     if (!this.locationForm.valid) return
 
-    const formData = this.locationForm.value;
+    const formData = this.locationForm.getRawValue();
     const locationData: HousingLocationInfo = {
       id: this.existingId() !== -1 ? this.existingId() : -1,
-      name: formData.name ?? '',
-      city: formData.location?.city ?? '',
-      state: formData.location?.state ?? '',
-      availableUnits: Number(formData.availableUnits) ?? 0,
-      wifi: formData.wifi ?? false,
-      laundry: formData.laundry ?? false,
-      photo: formData.photo ?? '',
+      name: formData.name,
+      city: formData.location?.city,
+      state: formData.location?.state,
+      availableUnits: formData.availableUnits,
+      wifi: formData.wifi,
+      laundry: formData.laundry,
+      photo: formData.photo,
     };
 
     if (this.existingId() !== -1) {
@@ -110,9 +114,9 @@ export class LocationForm {
         city: 'Mangalore',
         state: 'Karnataka',
       },
-      availableUnits: '1',
+      availableUnits: 67,
       wifi: true,
-      laundry: null,
+      laundry: false,
       photo:
         'https://angular.dev/assets/images/tutorials/common/webaliser-_TPTXZd9mOo-unsplash.jpg',
     });

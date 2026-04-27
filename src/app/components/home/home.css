@@ -58,7 +58,7 @@ button.primary:hover {
   gap: 12px;
   background: #ffffff; /* Brighter background */
   padding: 8px 16px;
-  border-radius: 10px;
+  border-radius: 8px;
   border: 2px solid #ddd; /* Thicker border */
   cursor: pointer;
   transition: all 0.3s ease;
@@ -74,7 +74,7 @@ button.primary:hover {
   font-size: 0.75rem;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  border-radius: 12px;
+  border-radius: 8px;
   background: var(--primary-color);
   color: white;
   font-weight: bold;
